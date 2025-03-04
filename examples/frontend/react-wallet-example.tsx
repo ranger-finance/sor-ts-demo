@@ -8,7 +8,7 @@
  */
 import React, { useState, useCallback } from 'react';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
-import { SorApi, OrderMetadataResponse, TransactionResponse, TradeSide } from '../src';
+import { SorApi, OrderMetadataResponse, TransactionResponse, TradeSide } from '../../src';
 
 // Create the SOR API client
 const sorApi = new SorApi({

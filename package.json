@@ -14,6 +14,10 @@
     "example:integration": "ts-node examples/integration-example.ts",
     "example:quotes": "ts-node examples/quotes-example.ts",
     "example:symbols": "ts-node examples/symbols-example.ts",
+    "example:increase-txn": "ts-node examples/increase-position-txn.ts",
+    "example:inspect": "ts-node examples/inspect-transaction.ts",
+    "example:manual-tx": "ts-node examples/manual-tx-sign.ts",
+    "example:verify": "ts-node examples/verify-signing.ts",
     "test:sdk": "ts-node test/sdk-test.ts # Tests SDK structure and type safety",
     "test:mock": "ts-node test/mock-api-test.ts # Tests SDK with mocked API responses",
     "test:real": "ts-node test/real-api-test.ts # Tests SDK with real API endpoints (requires API key)",
@@ -42,7 +46,8 @@
   "dependencies": {
     "@solana/web3.js": "^1.98.0",
     "base64-js": "^1.5.1",
-    "bs58": "^6.0.0"
+    "bs58": "^6.0.0",
+    "tweetnacl": "^1.0.3"
   },
   "repository": "git@github.com:ranger-finance/sor-sdk.git"
 }
