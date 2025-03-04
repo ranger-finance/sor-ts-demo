@@ -1,0 +1,48 @@
+{
+  "name": "ranger-sor-sdk",
+  "version": "0.1.0",
+  "description": "TypeScript SDK for the Ranger Smart Order Router (SOR) API",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "example": "ts-node examples/basic-usage.ts",
+    "example:node": "ts-node examples/node-example.ts",
+    "example:adapter": "ts-node examples/adapter-example.ts",
+    "example:positions": "ts-node examples/positions-example.ts",
+    "example:integration": "ts-node examples/integration-example.ts",
+    "example:quotes": "ts-node examples/quotes-example.ts",
+    "example:symbols": "ts-node examples/symbols-example.ts",
+    "test:sdk": "ts-node test/sdk-test.ts # Tests SDK structure and type safety",
+    "test:mock": "ts-node test/mock-api-test.ts # Tests SDK with mocked API responses",
+    "test:real": "ts-node test/real-api-test.ts # Tests SDK with real API endpoints (requires API key)",
+    "test:jest": "jest test/jest-api-test.ts # Run Jest-based tests with real API endpoints",
+    "test:tx": "ts-node test/transaction-test.ts # Test transaction utilities"
+  },
+  "keywords": [
+    "ranger",
+    "sor",
+    "api",
+    "sdk",
+    "solana",
+    "defi"
+  ],
+  "author": "Yong Kang <chiayongkang@hotmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.13.8",
+    "dotenv": "^16.4.7",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.6",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.2"
+  },
+  "dependencies": {
+    "@solana/web3.js": "^1.98.0",
+    "base64-js": "^1.5.1",
+    "bs58": "^6.0.0"
+  },
+  "repository": "git@github.com:ranger-finance/sor-sdk.git"
+}
