@@ -1,0 +1,15 @@
+{
+  "name": "sor-client-sdk",
+  "version": "1.0.0",
+  "description": "Client SDK for SOR WebSocket API",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test/mock-client-test.js",
+    "test:real": "node test/real-server-test.js",
+    "start:mock": "node test/mock-websocket-server.js"
+  },
+  "dependencies": {
+    "ws": "^8.13.0",
+    "dotenv": "^16.3.1"
+  }
+}
