@@ -73,9 +73,6 @@ class TransactionMonitor {
             
             // Send connection_init message
             this._initializeConnection();
-            
-            // Start ping interval to keep connection alive
-            this._startPingInterval();
         });
 
         this.ws.on('message', (data) => {
