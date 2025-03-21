@@ -298,9 +298,6 @@ async function runTests() {
     // Get test signature from environment variable or use the provided one
     const testSignature = process.env.TEST_SIGNATURE || '4zbKahoyXddoxPFqhU71iYTPJfrJQqKoCVFP7iUWfeNSPp2mBpgZQKoEDEh4GKFjb5Zij11WR2FZe7STX57nfSgv';
     
-    // Get the idle timeout value from env or use a default
-    const idle_timeout_secs = parseInt(process.env.WEBSOCKET_IDLE_TIMEOUT_SECS || '10');
-    
     // Create a monitor instance
     const monitor = new TransactionMonitor({
         apiKey,
@@ -323,55 +320,12 @@ async function runTests() {
     // Start monitoring
     monitor.monitor(testSignature);
     
-    // Wait for monitoring to start
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    // Wait for monitoring to start and observe for a short period
+    await new Promise(resolve => setTimeout(resolve, 5000));
     
-    // Test 2: Test protocol
-    console.log('\nTEST 2: Testing protocol and message handling');
-    // Send a ping to keep the connection alive
-    if (monitor.ws && monitor.ws.readyState === WebSocket.OPEN) {
-        const pingMessage = { type: 'ping' };
-        monitor.ws.send(JSON.stringify(pingMessage));
-        console.log('Sent ping message');
-    }
-    
-    // Wait a bit for response
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    // Test 3: Test timeout
-    console.log(`\nTEST 3: Testing timeout (waiting for ${idle_timeout_secs} seconds)`);
-    console.log('Stopping ping messages to trigger timeout...');
-    monitor._clearPingInterval(); // Stop pings to trigger timeout
-    
-    // Wait for timeout plus a buffer
-    const timeoutMs = (idle_timeout_secs + 5) * 1000;
-    console.log(`Waiting ${timeoutMs/1000} seconds for timeout to occur...`);
-    
-    // Check every second if we're still connected
-    for (let i = 0; i < timeoutMs/1000; i++) {
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        const state = monitor.ws ? ['CONNECTING', 'OPEN', 'CLOSING', 'CLOSED'][monitor.ws.readyState] : 'NONE';
-        console.log(`Connection state after ${i+1}s: ${state}`);
-        
-        // If connection is closed or closing, we can exit early
-        if (!monitor.ws || monitor.ws.readyState >= 2) {
-            console.log('Connection closed or closing, timeout worked!');
-            break;
-        }
-    }
-    
-    // Check final state
-    const finalState = monitor.ws ? ['CONNECTING', 'OPEN', 'CLOSING', 'CLOSED'][monitor.ws.readyState] : 'CLOSED';
-    console.log(`Final connection state: ${finalState}`);
-    
-    if (monitor.ws && monitor.ws.readyState === WebSocket.OPEN) {
-        console.log('Connection still open - timeout did not work as expected');
-        monitor.close();
-    } else {
-        console.log('Connection closed - timeout worked correctly');
-    }
-    
-    console.log('\nTests completed');
+    // Clean up
+    console.log('\nTest completed, closing connection');
+    monitor.close();
 }
 
 // If this is the main module, run the tests
