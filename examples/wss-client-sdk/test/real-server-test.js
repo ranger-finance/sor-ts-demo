@@ -3,7 +3,9 @@ require('dotenv').config();
 
 class TransactionMonitor {
     constructor(options = {}) {
-        this.baseUrl = options.baseUrl || process.env.WS_SERVER_URL || 'wss://staging-sor-api-437363704888.asia-northeast1.run.app/v1/observe_tx';
+        this.baseUrl = options.baseUrl || process.env.WS_SERVER_URL || '```latex
+wss://data-api-staging-437363704888.asia-northeast1.run.app/v1/observe_tx
+```';
         this.timeout = options.timeout || 30000; // Default 30s timeout
         this.reconnectInterval = options.reconnectInterval || 3000;
         this.maxReconnects = options.maxReconnects || 5;
