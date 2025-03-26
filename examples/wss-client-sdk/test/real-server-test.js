@@ -73,6 +73,9 @@ class TransactionMonitor {
             
             // Send connection_init message
             this._initializeConnection();
+            
+            // Start ping interval
+            this._startPingInterval();
         });
 
         this.ws.on('message', (data) => {
@@ -102,6 +105,19 @@ class TransactionMonitor {
                         break;
                     case 'error':
                         console.error('Server error:', message.payload);
+                        // Check if this is a transaction not found error
+                        if (message.payload && (
+                            message.payload.message?.includes('Failed to fetch transaction') ||
+                            message.payload.message?.includes('not found')
+                        )) {
+                            console.error(`Transaction not found or invalid: ${this.currentSignature}`);
+                            // Remove from monitored signatures
+                            if (this.currentSignature) {
+                                this.monitoredSignatures.delete(this.currentSignature);
+                            }
+                            // Invoke error callback with more specific information
+                            this.callbacks.onError(new Error(`Transaction not found: ${this.currentSignature}`));
+                        }
                         break;
                     case 'connection_error':
                         console.error('Connection error:', message.payload);
@@ -304,6 +320,18 @@ async function runTests() {
         },
         onMonitoring: (signature) => {
             console.log('👀 Started monitoring transaction:', signature);
+        },
+        onError: (error) => {
+            console.error('❌ Error:', error.message);
+            if (error.message.includes('Transaction not found')) {
+                console.log('⚠️ The test signature appears to be invalid or expired.');
+                console.log('Please update the TEST_SIGNATURE in your .env file or provide a valid signature.');
+                console.log('You can get a valid signature by executing a transaction on the Solana network.');
+                
+                // Close the connection after error
+                monitor.close();
+                process.exit(1);
+            }
         }
     });
     

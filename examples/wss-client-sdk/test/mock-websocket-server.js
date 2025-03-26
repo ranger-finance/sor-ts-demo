@@ -132,14 +132,15 @@ function handleSubscribeRequest(ws, data) {
 
     // Simulate a transaction update
     sendMessage(ws, {
-        type: 'update',
-        signature,
-        status: 'success',
-        data: {
+        type: 'next',
+        id: signature,
+        payload: {
             signature,
             slot: 150005565,
             timestamp: Date.now(),
-            result: 'Transaction was already confirmed'
+            result: 'Transaction was already confirmed',
+            maker_fee: 0.0025,
+            taker_fee: 0.004
         }
     });
 }
@@ -185,14 +186,15 @@ function simulateTransactionUpdates(ws, signature, timeout) {
 
         // Send simulated update
         sendMessage(ws, {
-            type: 'update',
-            signature,
-            status: 'success',
-            data: {
+            type: 'next',
+            id: signature,
+            payload: {
                 signature,
                 slot: 150005565,
                 timestamp: Date.now(),
-                result: 'Transaction was already confirmed'
+                result: 'Transaction was already confirmed',
+                maker_fee: 0.0025,
+                taker_fee: 0.004
             }
         });
     }, 2000); // Send updates every 2 seconds

@@ -54,6 +54,15 @@ const monitor = new TransactionMonitor({
     apiKey: 'your_api_key',
     onUpdate: (update) => {
         console.log('Transaction updated:', update);
+        
+        // Access the new fee fields
+        if (update.maker_fee !== undefined) {
+            console.log('Maker fee:', update.maker_fee);
+        }
+        
+        if (update.taker_fee !== undefined) {
+            console.log('Taker fee:', update.taker_fee);
+        }
     }
 });
 
@@ -72,6 +81,17 @@ monitor.unsubscribe('another_transaction_signature');
 // Close connection
 monitor.close();
 ```
+
+## Transaction Update Fields
+
+The `onUpdate` callback receives a payload that includes:
+
+- `signature`: The transaction signature
+- `slot`: The Solana slot number
+- `timestamp`: Timestamp of the update
+- `result`: Status message
+- `maker_fee`: The maker fee for the transaction (optional)
+- `taker_fee`: The taker fee for the transaction (optional)
 
 ## API Reference
 
